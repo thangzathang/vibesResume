@@ -24,13 +24,13 @@ app.post("/movies", async (req, res) => {
   // await
   try {
     // console.log("Received", req.body);
-    const { movie_name, movie_description, movie_rating } = req.body;
+    const { movie_name, movie_description, movie_rating, movie_year, imageurl } = req.body;
 
     const newMovie = await pool.query(
       `
-    INSERT INTO movies (movie_name, movie_description, movie_rating) 
-    VALUES ($1, $2, $3) RETURNING *`,
-      [movie_name, movie_description, movie_rating]
+    INSERT INTO movies (movie_name, movie_description, movie_rating, movie_year, imageurl ) 
+    VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [movie_name, movie_description, movie_rating, movie_year, imageurl]
     );
 
     res.json(newMovie.rows[0]);
