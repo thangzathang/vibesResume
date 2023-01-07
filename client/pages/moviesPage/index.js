@@ -5,13 +5,19 @@ import Image from "next/image";
 // FlowBite
 import { Label, Checkbox, TextInput, Button, Spinner } from "flowbite-react";
 
+// Component
+import MoviesList from "../../components/MoviesList";
+
 const options = {
   method: "GET",
   headers: {
-    "X-RapidAPI-Key": "52644b208cmsh00d0037ea531929p1a6804jsn4736295c5ec9",
+    "X-RapidAPI-Key": `52644b208cmsh00d0037ea531929p1a6804jsn4736295c5ec9`,
     "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
   },
 };
+
+// swr fetcher
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const index = () => {
   const [movieName, setMovieName] = useState("");
@@ -25,7 +31,9 @@ const index = () => {
   // Loading State
   const [loading, setLoading] = useState(false);
 
-  // Fetch previous movie posts
+  // Fetch all movies
+  const { data, error, isLoading } = useSWR("http://localhost:5000/movies", fetcher);
+  if (error) return <div>failed to load</div>;
 
   // Handle Submit
   async function handleSubmit(e, type) {
@@ -52,13 +60,6 @@ const index = () => {
         })
         .catch((err) => console.error(err));
     }
-
-    // console.log("...Submitting...");
-    // console.log("Title:", movieName);
-    // console.log("Year:", movieYear);
-    // console.log("Comment:", movieComment);
-    // console.log("Rating:", movieScore);
-    // console.log("Movie Image URL:", moviePosterURL);
 
     // Submit Movie
     try {
@@ -147,7 +148,7 @@ const index = () => {
                       className="my-4 rounded-lg"
                       height={100}
                       width={120}
-                      src={moviePosterURL}
+                      src={moviePosterURL ? moviePosterURL : ""}
                       alt={"Movie poster"}
                     />
                   </div>
@@ -235,6 +236,17 @@ const index = () => {
               );
             })}
           </div>
+        </section>
+        <section className="bg-blue-900">
+          {isLoading && (
+            <div className="flex justify-center mt-8">
+              <Button>
+                <Spinner aria-label="Spinner button example" />
+                <span className="pl-3">Loading movies...</span>
+              </Button>
+            </div>
+          )}
+          <MoviesList moviesArray={!isLoading ? data : []} />
         </section>
         {/* List of past Movie Reviews */}
       </main>
