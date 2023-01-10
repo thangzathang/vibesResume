@@ -5,6 +5,9 @@ const cors = require("cors");
 const app = express();
 dotenv.config();
 
+// Import auth routes
+const authRoutes = require("./routes/jwtAuths");
+
 // Database
 const pool = require("./db");
 // console.log("pool:", pool);
@@ -20,7 +23,9 @@ app.listen(PORT, () => {
   console.log(`Server has started on port ${PORT}.`);
 });
 
-// Routes
+// ROUTES
+
+/* Movie */
 
 // 1. Create a movie.
 app.post("/movies", async (req, res) => {
@@ -123,3 +128,8 @@ app.delete("/movies/:movie_id", async (req, res) => {
     console.log("Error at DELETE a [specific] movie:", error);
   }
 });
+
+/* Auth */
+
+// Register and Login Routes.
+app.use("/auth", authRoutes);
