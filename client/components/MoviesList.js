@@ -4,23 +4,31 @@ import React from "react";
 import Image from "next/image";
 
 const MoviesList = ({ moviesArray = ["Item"] }) => {
-  console.log("Movies array: ", moviesArray);
+  // console.log("Movies array: ", moviesArray);
   return (
     <div className="text-white">
-      <div>
-        {moviesArray.map((item, index) => {
-          return (
-            <div key={index}>
-              <div className="text-lg "> Name: {item.movie_name}</div>
-              <div>
-                {" "}
-                <Image height={50} width={50} src={item.imageurl ? item.imageurl : ""} alt={"Movie poster"} />
+      <div className="py-8 bg-green-600 flex flex-wrap justify-center items-center space-x-0 md:space-x-4 space-y-4 md:space-y-0 px-4 md:px-0">
+        {moviesArray
+          .slice(0)
+          .reverse()
+          .map((item, index) => {
+            return (
+              <div key={index} className="rounded-lg bg-blue-900 w-full lg:w-3/12 min-h-full p-4">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="text-xl italic pb-2"> Name: {item.movie_name}</div>
+                  <div className="text-lg pb-4">{item.movie_year}</div>
+                  <div>
+                    {" "}
+                    <Image className="rounded-lg" height={50} width={100} src={item.imageurl ? item.imageurl : ""} alt={"Movie poster"} />
+                  </div>
+
+                  <div className="mt-8">Review Comment:</div>
+
+                  <div className="mt-8 mb-4 italic text-md px-4">"{item.movie_description}"</div>
+                </div>
               </div>
-              <div> {item.movie_year}</div>
-              <div> {item.movie_description}</div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );
