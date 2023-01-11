@@ -53,4 +53,37 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// Login Route
+router.post("/login", async (req, res) => {
+  try {
+    // 1. Get data
+    const { email, password } = req.body;
+
+    // 2. Check if user exists
+    const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
+
+    console.log("User is:", user.rows[0]);
+
+    // If user does not exist
+    if (user.rows.length === 0) {
+      return res.status(401).send({ message: "User with email does not exist" });
+    }
+
+    // 3. Check password
+    const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
+
+    console.log("Valid password:", validPassword);
+    if (!validPassword) {
+      return res.status(401).send({ message: "Incorrect Password" });
+    }
+
+    // 4. Give JWT Token
+    const token = jwtGenerator(user.rows[0].user_id);
+    res.status(200).send({ token });
+  } catch (error) {
+    console.log("Error at Login Route", error);
+    res.status(500).send("Server Error -  at Logging in");
+  }
+});
+
 module.exports = router;
