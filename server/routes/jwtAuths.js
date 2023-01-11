@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const jwtGenerator = require("../utils/jwtGenerator");
 
 // Bcrypt
 const bcrypt = require("bcrypt");
@@ -33,16 +34,19 @@ router.post("/register", async (req, res) => {
     // NOTE: We store the encrypted password, not the password itself.
     const newUser = await pool.query(
       `
-      INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3)
+      INSERT INTO users (user_name, user_email, user_password) 
+      VALUES ($1, $2, $3)
+      RETURNING *
       `,
       [username, email, bcryptPassword]
     );
-    res.status(200).send({ "New user created:": newUser });
+
+    // res.status(200).send({ "New user created:": newUser });
     // res.status(200).send({ message: "New User created" });
-    // console.log("New user created:", newUser);
 
     // 5. Generate JWT.
-    //
+    const token = jwtGenerator(newUser.rows[0].user_id);
+    res.status(200).send({ token });
   } catch (error) {
     console.log("Error at Registering", error);
     res.status(500).send("Server Error -  at Registering");
