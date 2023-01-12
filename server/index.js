@@ -7,6 +7,7 @@ dotenv.config();
 
 // Import auth routes
 const authRoutes = require("./routes/jwtAuths");
+const homepageRoutes = require("./routes/homepage");
 
 // Database
 const pool = require("./db");
@@ -18,10 +19,6 @@ let PORT = 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-
-app.listen(PORT, () => {
-  console.log(`Server has started on port ${PORT}.`);
-});
 
 // ROUTES
 
@@ -133,3 +130,10 @@ app.delete("/movies/:movie_id", async (req, res) => {
 
 // Register and Login Routes.
 app.use("/auth", authRoutes);
+
+// Homepage
+app.use("/homepage", homepageRoutes);
+
+app.listen(PORT, () => {
+  console.log(`Server has started on port ${PORT}.`);
+});
