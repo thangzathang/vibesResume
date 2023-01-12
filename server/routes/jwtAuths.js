@@ -1,6 +1,10 @@
 const router = require("express").Router();
 const jwtGenerator = require("../utils/jwtGenerator");
 
+// Middleware
+const validInfo = require("../middleware/validInfo");
+const authorization = require("../middleware/authorization");
+
 // Bcrypt
 const bcrypt = require("bcrypt");
 
@@ -8,7 +12,7 @@ const bcrypt = require("bcrypt");
 const pool = require("../db");
 
 // Registering
-router.post("/register", async (req, res) => {
+router.post("/register", validInfo, async (req, res) => {
   try {
     // 1. Get data
     const { username, email, password } = req.body;
@@ -54,7 +58,7 @@ router.post("/register", async (req, res) => {
 });
 
 // Login Route
-router.post("/login", async (req, res) => {
+router.post("/login", validInfo, async (req, res) => {
   try {
     // 1. Get data
     const { email, password } = req.body;
@@ -83,6 +87,18 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log("Error at Login Route", error);
     res.status(500).send("Server Error -  at Logging in");
+  }
+});
+
+// Verify route
+router.get("/verify", authorization, async (req, res) => {
+  try {
+    // This means user has passed authorization
+    // res.send(200).send(true);
+    res.json(true);
+  } catch (error) {
+    console.log("Error at Verifying Route", error);
+    res.status(500).send("Server Error -  at Verifying");
   }
 });
 
