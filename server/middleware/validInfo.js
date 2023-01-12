@@ -8,15 +8,15 @@ const validInfo = (req, res, next) => {
   if (req.path === "/register") {
     console.log(!email.length);
     if (![email, username, password].every(Boolean)) {
-      return res.status(401).send("Missing Credentials");
+      return res.status(401).send({ message: "Missing Credentials" });
     } else if (!validEmail(email)) {
-      return res.status(401).send("Invalid Email");
+      return res.status(401).send({ message: "Invalid Email" });
     }
   } else if (req.path === "/login") {
     if (![email, password].every(Boolean)) {
-      return res.status(401).send("Missing Credentials");
+      return res.status(401).send({ message: "Missing Credentials" });
     } else if (!validEmail(email)) {
-      return res.status(401).send("Invalid Email");
+      return res.status(401).send({ message: "Invalid Email" });
     }
   }
 

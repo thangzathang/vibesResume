@@ -22,7 +22,6 @@ router.post("/register", validInfo, async (req, res) => {
 
     // If User exists
     if (user.rows.length !== 0) {
-      console.log("User already Exists:", user.rows);
       res.status(401).send({ message: "User already exists", data: user.rows });
       return;
     }
