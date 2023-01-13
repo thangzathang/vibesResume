@@ -65,7 +65,7 @@ router.post("/login", validInfo, async (req, res) => {
     // 2. Check if user exists
     const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
-    console.log("User is:", user.rows[0]);
+    // console.log("User is:", user.rows[0]);
 
     // If user does not exist
     if (user.rows.length === 0) {
@@ -93,7 +93,8 @@ router.post("/login", validInfo, async (req, res) => {
 router.get("/verify", authorization, async (req, res) => {
   try {
     // This means user has passed authorization
-    // res.send(200).send(true);
+
+    // res.json(req.user);
     res.json(true);
   } catch (error) {
     console.log("Error at Verifying Route", error);
