@@ -33,7 +33,8 @@ const Login = () => {
       });
 
       const parseResponse = await response.json();
-      // console.log("Data we get back (Login):", parseResponse);
+      console.log("Data we get back (Login):", parseResponse);
+
       if (parseResponse.token) {
         // Don't need to use Local Storage - already set in browser cookie.;
         // localStorage.setItem("token", parseResponse.token)
