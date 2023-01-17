@@ -90,6 +90,7 @@ router.post("/login", validInfo, async (req, res) => {
 
     // 4. Give JWT Token
     const token = jwtGenerator(user.rows[0].user_id);
+    // console.log("Token login:", token);
 
     // 5. Send JWT as cookie
     res

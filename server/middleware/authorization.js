@@ -4,10 +4,11 @@ require("dotenv").config();
 module.exports = async (req, res, next) => {
   try {
     const jwtToken = req.cookies.token;
-
     // No token means no authorization
+    // console.log("jwtToken:", jwtToken);
+
     if (!jwtToken) {
-      return res.status(403).send({ message: "You are not authorized!" });
+      return res.status(403).send({ verified: false, message: "You are not authorized!" });
     }
 
     const payload = await jwt.verify(jwtToken, process.env.jwtSecret);
