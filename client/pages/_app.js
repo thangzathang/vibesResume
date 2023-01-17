@@ -15,7 +15,8 @@ export default function App({ Component, pageProps }) {
     try {
       const response = await fetch("http://localhost:5000/auth/verify", {
         method: "GET",
-        headers: { token: localStorage.token },
+        credentials: "include",
+        // headers: { token: localStorage.token },
       });
 
       const parseResponse = await response.json();

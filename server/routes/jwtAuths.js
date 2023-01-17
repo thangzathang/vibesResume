@@ -22,8 +22,7 @@ router.post("/register", validInfo, async (req, res) => {
 
     // If User exists
     if (user.rows.length !== 0) {
-      res.status(401).send({ message: "User already exists", data: user.rows });
-      return;
+      return res.status(401).send({ message: "User already exists", data: user.rows });
     }
 
     // res.json(user.rows);
@@ -49,7 +48,16 @@ router.post("/register", validInfo, async (req, res) => {
 
     // 5. Generate JWT.
     const token = jwtGenerator(newUser.rows[0].user_id);
-    res.status(200).send({ token });
+
+    // 6. Send JWT
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .send({ token });
+
+    // res.status(200).send({ token });
   } catch (error) {
     console.log("Error at Registering", error);
     res.status(500).send("Server Error -  at Registering");
@@ -82,7 +90,16 @@ router.post("/login", validInfo, async (req, res) => {
 
     // 4. Give JWT Token
     const token = jwtGenerator(user.rows[0].user_id);
-    res.status(200).send({ token });
+
+    // 5. Send JWT as cookie
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .send({ token });
+
+    // res.status(200).send({ token });
   } catch (error) {
     console.log("Error at Login Route", error);
     res.status(500).send("Server Error -  at Logging in");

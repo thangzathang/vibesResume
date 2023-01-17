@@ -32,14 +32,16 @@ const Register = () => {
       const response = await fetch("http://localhost:5000/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(body),
       });
 
       const parseResponse = await response.json();
-      // console.log("Data we get back:", parseResponse);
+      // console.log("Data we get back (register):", parseResponse);
+
       if (parseResponse.token) {
-        localStorage.setItem("token", parseResponse.token);
-        // setMessage("User created!");
+        // Don't need to use Local Storage - already set in browser cookie.
+        // localStorage.setItem("token", parseResponse.token);
         toast("User created!");
         router.push("/moviesPage");
         return;
