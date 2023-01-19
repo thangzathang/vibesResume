@@ -20,6 +20,7 @@ router.get("/", authorization, async (req, res) => {
       //
       `SELECT 
         users.user_name, 
+        users.user_id, 
         movies.movie_id, 
         movies.movie_name, 
         movies.movie_description, 
@@ -41,7 +42,6 @@ router.get("/", authorization, async (req, res) => {
 router.post("/movies", authorization, async (req, res) => {
   // await
   try {
-    // console.log("Received", req.body);
     const { movie_name, movie_description, movie_rating, movie_year, imageurl } = req.body;
 
     const newMovie = await pool.query(

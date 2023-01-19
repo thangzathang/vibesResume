@@ -28,8 +28,31 @@ const index = () => {
   const [movieScore, setMovieScore] = useState("");
   const [movieList, setMovieList] = useState([]);
 
+  // User State
+  const [userId, set_userId] = useState("");
+
   // Loading State
   const [loading, setLoading] = useState(false);
+
+  const getProfile = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/homepage/", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const parseData = await res.json();
+      set_userId(parseData[0].user_id);
+
+      // console.log("User data:", parseData[0].user_id);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   // Fetch all movies
   const { data, error, isLoading } = useSWR("http://localhost:5000/movies", fetcher);
@@ -70,9 +93,11 @@ const index = () => {
         movie_rating: movieScore,
         movie_year: movieYear,
         imageurl: moviePosterURL,
+        // user_id: userId,
       };
-      const response = await fetch("http://localhost:5000/movies", {
+      const response = await fetch("http://localhost:5000/homepage/movies", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
