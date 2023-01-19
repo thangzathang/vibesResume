@@ -8,7 +8,15 @@ module.exports = async (req, res, next) => {
     // console.log("jwtToken:", jwtToken);
 
     if (!jwtToken) {
-      return res.status(403).send({ verified: false, message: "You are not authorized!" });
+      // return res.status(403).send({ verified: false, message: "You are not authorized!" });
+      const token = "";
+
+      return res
+        .cookie("token", token, {
+          httpOnly: true,
+        })
+        .status(403)
+        .send({ verified: false, message: "You are not authorized! New empty cookie sent!" });
     }
 
     const payload = await jwt.verify(jwtToken, process.env.jwtSecret);
@@ -17,6 +25,14 @@ module.exports = async (req, res, next) => {
     next();
   } catch (error) {
     console.log("Serer error - authorized failed:", error);
-    res.status(403).send({ message: "You are not authorized!" });
+
+    // Expired token means send back an empty token so that user is directed to login page in the client side.
+    const token = "";
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .status(403)
+      .send({ verified: false, message: "You are not authorized! New empty cookie sent!" });
   }
 };
