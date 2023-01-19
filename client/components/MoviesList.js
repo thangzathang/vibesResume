@@ -19,7 +19,19 @@ const MoviesList = ({ moviesArray = ["Item"] }) => {
                   <div className="text-lg pb-4">{item.movie_year}</div>
                   <div>
                     {" "}
-                    <Image className="rounded-lg" height={50} width={100} src={item.imageurl ? item.imageurl : ""} alt={"Movie poster"} />
+                    {item?.imageurl ? (
+                      //
+                      <Image
+                        //
+                        className="rounded-lg"
+                        height={50}
+                        width={100}
+                        src={item.imageurl ? item.imageurl : ""}
+                        alt={"Movie poster"}
+                      />
+                    ) : (
+                      <div className="my-20 bg-red-900">No Image</div>
+                    )}
                   </div>
 
                   <div className="mt-8">Review Comment:</div>
