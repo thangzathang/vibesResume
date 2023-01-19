@@ -33,6 +33,8 @@ CREATE TABLE movies(
     movie_name VARCHAR(255),
     movie_description VARCHAR(255),
     movie_rating INT,
+    movie_year INT,
+    imageurl  VARCHAR(255),
    PRIMARY KEY(movie_id),
    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
