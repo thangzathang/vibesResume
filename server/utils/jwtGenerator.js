@@ -7,10 +7,12 @@ function jwtGenerator(user_id) {
   // };
 
   const payload = {
-    id: user_id,
+    user: {
+      id: user_id,
+    },
   };
 
-  return jwt.sign(payload, process.env.jwtSecret, { expiresIn: "10minutes" });
+  return jwt.sign(payload, process.env.jwtSecret, { expiresIn: "1hr" });
 }
 
 module.exports = jwtGenerator;
