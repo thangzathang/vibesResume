@@ -4,6 +4,9 @@ import { useRouter } from "next/router";
 // Toast
 import { toast } from "react-toastify";
 
+// Flowbite
+import { Checkbox } from "flowbite-react";
+
 const formStyle = {
   display: "flex",
   flexDirection: "column",
@@ -18,6 +21,7 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [showPassword, setShowPassword] = useState("password");
 
   // Message
   const [message, setMessage] = useState("");
@@ -55,26 +59,68 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h1>{message}</h1>
+    <div className="text-white bg-gray-900 min-h-screen pb-10">
+      <h1 className="pl-8 py-8 text-2xl">Register</h1>
+      <div className="flex flex-col items-center">
+        <form style={formStyle} onSubmit={(e) => handleSubmit(e)} className="w-full px-8">
+          <div className="flex flex-col my-4">
+            <label htmlFor="username" className="my-2">
+              {" "}
+              Username{" "}
+            </label>
+            <input required={true} className="text-black" type="text" name="username" id="username" onChange={(e) => setUsername(e.target.value)} />
+          </div>
 
-      <h1>Register</h1>
+          <div className="flex flex-col my-4">
+            <label htmlFor="email" className="my-2">
+              {" "}
+              Email{" "}
+            </label>
+            <input required={true} className="text-black" type="text" name="email" id="email" onChange={(e) => setEmail(e.target.value)} />
+          </div>
 
-      <form style={formStyle} onSubmit={(e) => handleSubmit(e)}>
-        <label htmlFor="username"> Username </label>
-        <input type="text" name="username" id="username" onChange={(e) => setUsername(e.target.value)} />
+          <div className="flex flex-col my-4">
+            <label htmlFor="password" className="my-2">
+              {" "}
+              Password{" "}
+            </label>
+            <input required={true} className="text-black" type={`${showPassword}`} name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+          </div>
 
-        <label htmlFor="email"> Email </label>
-        <input type="text" name="email" id="email" onChange={(e) => setEmail(e.target.value)} />
+          <div className="mt-5 flex items-center justify-start">
+            <Checkbox
+              onClick={() =>
+                setShowPassword((prev) => {
+                  console.log("Prev", prev);
+                  if (prev === "password") {
+                    return (prev = "text");
+                  } else {
+                    return (prev = "password");
+                  }
+                })
+              }
+              name="passwordCheckbox"
+              id="passwordCheckbox"
+              className="mr-2 "
+            />
+            <label htmlFor="passwordCheckbox" className="text-white">
+              Show Password
+            </label>
+          </div>
 
-        <label htmlFor="password"> Password </label>
-        <input type="text" name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+          <button type="submit" className="font-bold active:text-lg rounded-lg p-4 bg-green-500 mt-8 flex justify-center items-center">
+            {" "}
+            Register{" "}
+          </button>
+        </form>
+      </div>
 
-        <button type="submit" className="bg-green-500 p-8 m-4">
-          {" "}
-          Register{" "}
+      <div className="mt-16 mb-10 px-8">
+        <div className="mb-4">Already have an account?</div>
+        <button onClick={() => router.push("/auth/login")} className="underline" type="submit">
+          Login here
         </button>
-      </form>
+      </div>
     </div>
   );
 };
