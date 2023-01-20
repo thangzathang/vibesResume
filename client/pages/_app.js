@@ -21,6 +21,9 @@ export default function App({ Component, pageProps }) {
 
       const parseResponse = await response.json();
       console.log("Auth Server says:", parseResponse);
+      if (parseResponse.verified !== false) {
+        setIsAuthenticated(true);
+      }
     } catch (error) {
       console.log("Check auth error:", error);
     }
@@ -34,7 +37,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <NavbarComponent />
+      <NavbarComponent isAuthenticated={isAuthenticated} />
 
       <ToastContainer />
 
