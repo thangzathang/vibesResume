@@ -33,11 +33,10 @@ const MoviesList = ({ moviesArray = ["Item"] }) => {
                       <div className="my-20 bg-red-900">No Image</div>
                     )}
                   </div>
-
-                  <div className="mt-8">Review Comment:</div>
-
-                  <div className="mt-8 mb-4 italic text-md px-4">"{item.movie_description}"</div>
                 </div>
+                <div className="mt-8">{`${item.user_name.toUpperCase()} rated it ${item.movie_rating} / 10`}</div>
+                <div className="mt-4 font-bold">Review Comment:</div>
+                <div className="mt-4 mb-4 italic text-md px-4">"{item.movie_description}"</div>
               </div>
             );
           })}
