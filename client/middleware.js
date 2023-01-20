@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 
 export async function middleware(request) {
   const cookie = request.cookies.get("token")?.value;
-  console.log("Token Cookie:", cookie.length);
+  // console.log("Token Cookie:", cookie?.length);
 
   // if (request.url.includes("/moviesPage") && !cookie) {
   //   const url = request.nextUrl.clone();
@@ -13,7 +13,7 @@ export async function middleware(request) {
   //   return NextResponse.rewrite(url);
   // }
 
-  if (!cookie) {
+  if (!cookie && !request.url.includes("/auth/register")) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     return NextResponse.rewrite(url);
@@ -26,11 +26,11 @@ export async function middleware(request) {
     return NextResponse.redirect(url);
   }
 
-  if (request.url.includes("/auth/register") && cookie) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/moviesPage";
-    return NextResponse.redirect(url);
-  }
+  // if (request.url.includes("/auth/register") && cookie) {
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = "/moviesPage";
+  //   return NextResponse.redirect(url);
+  // }
 }
 
 // See "Matching Paths" below to learn more
