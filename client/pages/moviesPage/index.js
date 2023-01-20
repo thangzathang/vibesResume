@@ -219,10 +219,9 @@ const index = () => {
           {/* Loading Spinner */}
           {loading && <Spinner aria-label="Default status example" />}
 
-          <div className="text-2xl text-white font-bold">Past Movie Reviews:</div>
+          <div className="text-2xl text-white font-bold">Recent Movie Reviews:</div>
 
           <div className="flex flex-wrap justify-center items-center space-x-2 space-y-2 p-4 ">
-            {movieList.length === 0 && <div className="text-white italic text-xl mt-12">No past movie reviews</div>}
             {movieList.map((movie, index) => {
               return (
                 <div

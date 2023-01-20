@@ -55,7 +55,21 @@ app.post("/movies", async (req, res) => {
 // 2. Get all movies.
 app.get("/movies", async (req, res) => {
   try {
-    const allMovies = await pool.query(`SELECT * FROM movies`);
+    const allMovies = await pool.query(
+      //
+      `
+    SELECT 
+      movies.movie_name, 
+      movies.movie_rating, 
+      movies.movie_year, 
+      movies.movie_description, 
+      movies.imageurl, 
+      movies.movie_id, 
+      users.user_name,
+      users.user_id
+    FROM movies 
+    INNER JOIN users ON movies.user_id = users.user_id`
+    );
 
     res.json(allMovies.rows);
   } catch (error) {
