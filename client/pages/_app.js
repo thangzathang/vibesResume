@@ -1,6 +1,9 @@
 import "../styles/globals.css";
 import { useState, useEffect } from "react";
 
+// User Context
+import { UserContext } from "../context/UserContext";
+
 // Component
 import NavbarComponent from "../components/NavbarComponent";
 
@@ -9,6 +12,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }) {
+  useEffect(() => {
+    const getUser = localStorage.getItem("userInfo");
+    if (getUser) {
+      setUser(JSON.parse(getUser));
+    }
+  }, []);
+
+  const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   async function checkAuth() {
@@ -37,11 +48,11 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <NavbarComponent isAuthenticated={isAuthenticated} />
-
-      <ToastContainer />
-
-      <Component {...pageProps} />
+      <UserContext.Provider value={{ user, setUser }}>
+        <NavbarComponent isAuthenticated={isAuthenticated} />
+        <ToastContainer />
+        <Component {...pageProps} />
+      </UserContext.Provider>
     </>
   );
 }

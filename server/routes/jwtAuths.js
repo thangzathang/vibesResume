@@ -98,7 +98,7 @@ router.post("/login", validInfo, async (req, res) => {
         httpOnly: true,
       })
       .status(200)
-      .send({ token });
+      .send({ token, user: user });
 
     // res.status(200).send({ token });
   } catch (error) {

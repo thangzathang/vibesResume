@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import useSWR from "swr";
 import Image from "next/image";
 
-// FlowBite
-import { Label, Checkbox, TextInput, Button, Spinner } from "flowbite-react";
-
 // Component
 import MoviesList from "../../components/MoviesList";
+
+// UserContext
+import { UserContext } from "../../context/UserContext";
+
+// FlowBite
+import { Label, Checkbox, TextInput, Button, Spinner } from "flowbite-react";
 
 const options = {
   method: "GET",
@@ -20,6 +23,10 @@ const options = {
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const index = () => {
+  // User Context
+  const context = useContext(UserContext);
+  console.log("User:", context.user?.user_name);
+
   const [movieName, setMovieName] = useState("");
   const [movieYear, setMovieYear] = useState("");
   const [movieComment, setMovieComment] = useState("");
@@ -133,6 +140,9 @@ const index = () => {
         <section className=" bg-green-600 pt-8 flex flex-col justify-center items-center">
           {/* Form */}
           <div className="text-2xl font-bold text-white">Fresh Pear 🍐</div>
+
+          {/* <div>hi {context.user?.user_name}</div> */}
+
           <div className="flex flex-col justify-center w-5/6 sm:w-1/2 mb-20">
             <form onSubmit={handleSubmit} className="flex flex-col">
               {/* Search Movie  */}
@@ -215,12 +225,9 @@ const index = () => {
               )}
             </form>
           </div>
-
           {/* Loading Spinner */}
           {loading && <Spinner aria-label="Default status example" />}
-
           <div className="text-2xl text-white font-bold">Recent Movie Reviews:</div>
-
           <div className="flex flex-wrap justify-center items-center space-x-2 space-y-2 p-4 ">
             {movieList.map((movie, index) => {
               return (
