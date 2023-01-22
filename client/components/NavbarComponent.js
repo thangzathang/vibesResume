@@ -4,6 +4,9 @@ import { Navbar } from "flowbite-react";
 
 const NavbarComponent = ({ isAuthenticated }) => {
   // console.log("isAuthenticated:", isAuthenticated);
+
+  function logout() {}
+
   return (
     <Navbar fluid={true} rounded={true}>
       <Navbar.Brand href="/">Vibes.resume</Navbar.Brand>
@@ -18,6 +21,8 @@ const NavbarComponent = ({ isAuthenticated }) => {
         {isAuthenticated && <Navbar.Link href="/user/myReviews">My Reviews</Navbar.Link>}
 
         {isAuthenticated && <Navbar.Link href="/user/myAccount">My Account</Navbar.Link>}
+
+        {isAuthenticated && <Navbar.Link onClick={() => logout()}>Logout</Navbar.Link>}
       </Navbar.Collapse>
     </Navbar>
   );
