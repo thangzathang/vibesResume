@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { Checkbox, Spinner } from "flowbite-react";
 
 // Toast
 import { toast } from "react-toastify";
+
+// User Context
+import { UserContext } from "../../context/UserContext";
 
 const formStyle = {
   display: "flex",
@@ -14,6 +17,9 @@ const formStyle = {
 const Login = () => {
   // Router
   const router = useRouter();
+
+  // User Context
+  const user = useContext(UserContext);
 
   // State
   const [password, setPassword] = useState("");
@@ -38,7 +44,7 @@ const Login = () => {
       });
 
       const parseResponse = await response.json();
-      console.log("Data we get back (Login):", parseResponse);
+      user.setUser(parseResponse.user.rows[0]);
 
       if (parseResponse.token) {
         // Don't need to use Local Storage - already set in browser cookie.;
@@ -68,12 +74,12 @@ const Login = () => {
         <h1 className="py-8 text-2xl">Login</h1>
         <form style={formStyle} onSubmit={(e) => handleSubmit(e)}>
           <label htmlFor="email">Email</label>
-          <input className="text-black" type="text" name="email" id="email" onChange={(e) => setEmail(e.target.value)} />
+          <input required="true" className="text-black" type="text" name="email" id="email" onChange={(e) => setEmail(e.target.value)} />
 
           <label htmlFor="password" className="mt-8">
             Password
           </label>
-          <input className="text-black" type={`${showPassword}`} name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+          <input required="true" className="text-black" type={`${showPassword}`} name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
 
           <div className="mt-5 flex items-center justify-start">
             <Checkbox
@@ -97,11 +103,9 @@ const Login = () => {
             </label>
           </div>
 
-          <div className="active:text-lg rounded-lg p-4 bg-green-500 mt-8 flex justify-center items-center">
-            <button className="font-bold" type="submit">
-              Login
-            </button>
-          </div>
+          <button className="font-bold" type="submit">
+            <div className="active:text-lg rounded-lg p-4 bg-green-500 mt-8 flex justify-center items-center">Login</div>
+          </button>
         </form>
         <div className="mt-9">
           <div className="mb-4">Don't have an account?</div>
