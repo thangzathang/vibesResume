@@ -61,21 +61,22 @@ router.post("/movies", authorization, async (req, res) => {
 router.put("/movies/:movie_id", authorization, async (req, res) => {
   try {
     const { movie_id } = req.params;
-    const { movie_name, movie_rating, movie_description } = req.body;
+    const { movie_rating, movie_description } = req.body;
 
     console.log("Req Body:", req.body);
+    console.log("Req Body(movie_rating):", movie_rating);
+    console.log("Req Body(movie_description):", movie_description);
 
     const updatedMovieAllField = await pool.query(
       `
       UPDATE movies
-      SET movie_name = $2,
-      movie_description = $3,
-      movie_rating = $4
+      SET movie_description = $2,
+      movie_rating = $3
       WHERE movie_id = $1
-      AND user_id = $5
+      AND user_id = $4
       RETURNING *
     `,
-      [movie_id, movie_name, movie_description, movie_rating, req.user.id]
+      [movie_id, movie_description, movie_rating, req.user.id]
     );
 
     if (updatedMovieAllField.rows.length === 0) {
