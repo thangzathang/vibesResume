@@ -104,7 +104,7 @@ router.post("/login", validInfo, async (req, res) => {
       user_name: user.rows[0].user_name,
       user_email: user.rows[0].user_email,
     };
-    console.log("User body:", userBody);
+    // console.log("User body:", userBody);
 
     // 5. Send JWT as cookie
     res
