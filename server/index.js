@@ -9,6 +9,7 @@ dotenv.config();
 // Import auth routes
 const authRoutes = require("./routes/jwtAuths");
 const homepageRoutes = require("./routes/homepage");
+const userRoutes = require("./routes/userRoutes");
 
 // Database
 const pool = require("./db");
@@ -155,6 +156,9 @@ app.use("/auth", authRoutes);
 
 // Homepage
 app.use("/homepage", homepageRoutes);
+
+// User
+app.use("/user", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server has started on port ${PORT}.`);
