@@ -7,7 +7,7 @@ import { UserContext } from "../context/UserContext";
 const NavbarComponent = ({ isAuthenticated }) => {
   const router = useRouter();
   const context = useContext(UserContext);
-  console.log("User:", context);
+  // console.log("User:", context);
   // console.log("isAuthenticated:", isAuthenticated);
 
   async function logout() {
