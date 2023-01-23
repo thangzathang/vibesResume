@@ -32,6 +32,11 @@ export default function App({ Component, pageProps }) {
 
       const parseResponse = await response.json();
       console.log("User is validated?:", parseResponse);
+
+      if (parseResponse.verified === false) {
+        // 1. Clear the old user from local storage
+        localStorage.removeItem("userInfo");
+      }
       if (parseResponse.verified !== false) {
         setIsAuthenticated(true);
       }

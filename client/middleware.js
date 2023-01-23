@@ -14,6 +14,7 @@ export async function middleware(request) {
   // }
 
   if (!cookie && !request.url.includes("/auth/register")) {
+    // 2. Redirect to Login
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     return NextResponse.rewrite(url);
