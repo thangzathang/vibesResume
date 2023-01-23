@@ -6,6 +6,9 @@ const cookieParser = require("cookie-parser");
 const app = express();
 dotenv.config();
 
+// Middle ware
+const authorization = require("./middleware/authorization");
+
 // Import auth routes
 const authRoutes = require("./routes/jwtAuths");
 const homepageRoutes = require("./routes/homepage");
@@ -105,22 +108,22 @@ app.get("/movies/:movie_id", async (req, res) => {
 });
 
 // 4. Update a movie.
-app.put("/movies/:movie_id", async (req, res) => {
+app.put("/movies/:movie_id", authorization, async (req, res) => {
   try {
     const { movie_id } = req.params;
-    const { movie_name, movie_rating, movie_description } = req.body;
+    const { movie_rating, movie_description } = req.body;
 
     console.log("Req Body:", req.body);
+    console.log("Req Params:", req.params);
 
     const updatedMovieAllField = await pool.query(
       `
       UPDATE movies
-      SET movie_name = $2,
-      movie_description = $3,
-      movie_rating = $4
+      SET movie_description = $2,
+      movie_rating = $3
       WHERE movie_id = $1
     `,
-      [movie_id, movie_name, movie_description, movie_rating]
+      [movie_id, movie_description, movie_rating]
     );
 
     res.json("Movie was updated!");
