@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Navbar } from "flowbite-react";
 import { useRouter } from "next/router";
+import { UserContext } from "../context/UserContext";
 
 const NavbarComponent = ({ isAuthenticated }) => {
   const router = useRouter();
+  const context = useContext(UserContext);
+  console.log("User:", context);
   // console.log("isAuthenticated:", isAuthenticated);
 
   async function logout() {
@@ -41,7 +44,7 @@ const NavbarComponent = ({ isAuthenticated }) => {
         {/* User Access Only */}
         {isAuthenticated && <Navbar.Link href="/user/myReviews">My Reviews</Navbar.Link>}
 
-        {isAuthenticated && <Navbar.Link href="/user/myAccount">My Account</Navbar.Link>}
+        {isAuthenticated && <Navbar.Link href="/user/myAccount">{`My Account (${context.user.user_name})`}</Navbar.Link>}
 
         {isAuthenticated && <Navbar.Link onClick={() => logout()}>Logout</Navbar.Link>}
       </Navbar.Collapse>

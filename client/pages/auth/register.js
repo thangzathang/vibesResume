@@ -41,11 +41,19 @@ const Register = () => {
       });
 
       const parseResponse = await response.json();
-      // console.log("Data we get back (register):", parseResponse);
+
+      /* If User Exists */
+      if (parseResponse.user) {
+        // 1. Set to User Context
+        user.setUser(parseResponse.user);
+        // 2. Set User to local storage
+        localStorage.setItem("userInfo", JSON.stringify(parseResponse.user));
+      }
 
       if (parseResponse.token) {
         // Don't need to use Local Storage - already set in browser cookie.
         // localStorage.setItem("token", parseResponse.token);
+
         toast("User created!");
         router.push("/moviesPage");
         return;
