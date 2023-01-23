@@ -55,7 +55,14 @@ router.post("/register", validInfo, async (req, res) => {
         httpOnly: true,
       })
       .status(200)
-      .send({ token });
+      .send({
+        token,
+        user: {
+          user_id: newUser.rows[0].user_id,
+          user_email: newUser.rows[0].user_id,
+          user_name: newUser.rows[0].user_name,
+        },
+      });
 
     // res.status(200).send({ token });
   } catch (error) {
@@ -92,13 +99,23 @@ router.post("/login", validInfo, async (req, res) => {
     const token = jwtGenerator(user.rows[0].user_id);
     // console.log("Token login:", token);
 
+    const userBody = {
+      user_id: user.rows[0].user_id,
+      user_name: user.rows[0].user_name,
+      user_email: user.rows[0].user_email,
+    };
+    console.log("User body:", userBody);
+
     // 5. Send JWT as cookie
     res
       .cookie("token", token, {
         httpOnly: true,
       })
       .status(200)
-      .send({ token, user: user });
+      .send({
+        token,
+        user: userBody,
+      });
 
     // res.status(200).send({ token });
   } catch (error) {

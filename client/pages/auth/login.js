@@ -44,11 +44,13 @@ const Login = () => {
       });
 
       const parseResponse = await response.json();
-      user.setUser(parseResponse.user.rows[0]);
+      console.log("User is:", parseResponse.user);
+      user.setUser(parseResponse.user);
 
       if (parseResponse.token) {
         // Don't need to use Local Storage - already set in browser cookie.;
-        // localStorage.setItem("token", parseResponse.token)
+        // Save user info to local state - not token, just information.
+        localStorage.setItem("userInfo", JSON.stringify(parseResponse.user));
         toast("Successfully Logged In!");
         setLoading(false);
         router.push("/moviesPage");
@@ -74,12 +76,12 @@ const Login = () => {
         <h1 className="py-8 text-2xl">Login</h1>
         <form style={formStyle} onSubmit={(e) => handleSubmit(e)}>
           <label htmlFor="email">Email</label>
-          <input required="true" className="text-black" type="text" name="email" id="email" onChange={(e) => setEmail(e.target.value)} />
+          <input required={true} className="text-black" type="text" name="email" id="email" onChange={(e) => setEmail(e.target.value)} />
 
           <label htmlFor="password" className="mt-8">
             Password
           </label>
-          <input required="true" className="text-black" type={`${showPassword}`} name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+          <input required={true} className="text-black" type={`${showPassword}`} name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
 
           <div className="mt-5 flex items-center justify-start">
             <Checkbox
