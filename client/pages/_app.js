@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }) {
+  // Get user from local storage if it exists.
   useEffect(() => {
     const getUser = localStorage.getItem("userInfo");
     if (getUser) {
@@ -30,7 +31,7 @@ export default function App({ Component, pageProps }) {
       });
 
       const parseResponse = await response.json();
-      console.log("Auth Server says:", parseResponse);
+      console.log("User is validated?:", parseResponse);
       if (parseResponse.verified !== false) {
         setIsAuthenticated(true);
       }
@@ -43,7 +44,7 @@ export default function App({ Component, pageProps }) {
   useEffect(() => {
     // verify json token
     checkAuth();
-  }, []);
+  }, [user]);
 
   return (
     <>

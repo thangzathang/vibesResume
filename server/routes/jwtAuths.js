@@ -137,4 +137,19 @@ router.get("/verify", authorization, async (req, res) => {
   }
 });
 
+router.post("/logout", async (req, res) => {
+  try {
+    const token = "";
+    return res
+      .cookie("token", token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .send({ message: "Logging out" });
+  } catch (error) {
+    console.log("Error at Logout Route", error);
+    res.status(500).send("Error at Logout Route");
+  }
+});
+
 module.exports = router;

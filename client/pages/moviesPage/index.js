@@ -25,7 +25,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 const index = () => {
   // User Context
   const context = useContext(UserContext);
-  console.log("User:", context.user?.user_name);
+  // console.log("User (UserContext):", context.user?.user_name);
 
   const [movieName, setMovieName] = useState("");
   const [movieYear, setMovieYear] = useState("");
