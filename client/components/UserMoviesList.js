@@ -28,7 +28,7 @@ const UserMoviesList = ({ item }) => {
       };
 
       try {
-        const response = await fetch(`http://localhost:5000/movies/${data.movie_id}`, {
+        const response = await fetch(`http://localhost:5000/user/movies/${data.movie_id}`, {
           method: "PUT",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -112,11 +112,13 @@ const UserMoviesList = ({ item }) => {
             </div>
 
             <div className="w-full flex justify-end">
-              <Button className="mr-2" onClick={() => setEditModal(false)}>
+              <Button className="mr-2 bg-gray-500" onClick={() => setEditModal(false)}>
                 Back
               </Button>
 
-              <Button onClick={handleEditSubmit}>Save</Button>
+              <Button className="" onClick={handleEditSubmit}>
+                Save
+              </Button>
             </div>
           </div>
         </Modal.Body>

@@ -107,31 +107,6 @@ app.get("/movies/:movie_id", async (req, res) => {
   }
 });
 
-// 4. Update a movie.
-app.put("/movies/:movie_id", authorization, async (req, res) => {
-  try {
-    const { movie_id } = req.params;
-    const { movie_rating, movie_description } = req.body;
-
-    console.log("Req Body:", req.body);
-    console.log("Req Params:", req.params);
-
-    const updatedMovieAllField = await pool.query(
-      `
-      UPDATE movies
-      SET movie_description = $2,
-      movie_rating = $3
-      WHERE movie_id = $1
-    `,
-      [movie_id, movie_description, movie_rating]
-    );
-
-    res.json("Movie was updated!");
-  } catch (error) {
-    console.log("Error at UPDATE a [specific] movie:", error);
-  }
-});
-
 // 5. Delete a movie.
 app.delete("/movies/:movie_id", async (req, res) => {
   try {
