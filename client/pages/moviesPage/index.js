@@ -43,7 +43,7 @@ const index = () => {
 
   const getProfile = async () => {
     try {
-      const res = await fetch("http://localhost:5000/homepage/", {
+      const res = await fetch(`/homepage/`, {
         method: "GET",
         credentials: "include",
       });
@@ -62,7 +62,7 @@ const index = () => {
   }, []);
 
   // Fetch all movies
-  const { data, error, isLoading } = useSWR("http://localhost:5000/movies", fetcher);
+  const { data, error, isLoading } = useSWR("/movies", fetcher);
   if (error) return <div>failed to load</div>;
 
   // Handle Submit
@@ -102,7 +102,7 @@ const index = () => {
         imageurl: moviePosterURL,
         // user_id: userId,
       };
-      const response = await fetch("http://localhost:5000/homepage/movies", {
+      const response = await fetch(`/homepage/movies`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

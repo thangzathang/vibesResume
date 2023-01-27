@@ -11,12 +11,12 @@ const myReviews = () => {
   // 4. Add the Delete button.  ✅
   // 5. Edit modal UI build. ✅
   // 6. Edit fetch to backend, see edit changes. ✅
-  // 7. Delete modal UI build.
-  // 8. Delete fetch to backend, see edit changes.
+  // 7. Delete modal UI build.  ✅
+  // 8. Delete fetch to backend, see edit changes.  ✅
 
   async function getMyReviews() {
     try {
-      const response = await fetch("http://localhost:5000/user/myMovies", {
+      const response = await fetch(`/user/myMovies`, {
         method: "GET",
         credentials: "include",
       });

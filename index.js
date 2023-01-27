@@ -3,8 +3,18 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
+const path = require("path");
+
 const app = express();
 dotenv.config();
+
+// Heroku configs
+const PORT = process.env.PORT || 5000;
+if (process.env.NODE_ENV === "production") {
+  // serve static content
+  app.use(express.static(path.join(__dirname, "client/build")));
+}
+// console.log(__dirname);
 
 // Middle ware
 const authorization = require("./middleware/authorization");
@@ -19,7 +29,6 @@ const pool = require("./db");
 // console.log("pool:", pool);
 
 // PORT
-let PORT = 5000;
 
 const corsOptions = {
   origin: "http://localhost:3000",

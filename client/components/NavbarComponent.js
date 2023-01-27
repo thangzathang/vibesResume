@@ -13,7 +13,7 @@ const NavbarComponent = ({ isAuthenticated }) => {
   async function logout() {
     // 1. Set cookies to false
     try {
-      const response = await fetch("http://localhost:5000/auth/logout", {
+      const response = await fetch(`/auth/logout`, {
         method: "POST",
         credentials: "include",
       });

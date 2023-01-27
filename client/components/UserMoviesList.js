@@ -39,7 +39,7 @@ const UserMoviesList = ({ item, setMoviesArray }) => {
       });
 
       try {
-        const response = await fetch(`http://localhost:5000/user/movies/${data.movie_id}`, {
+        const response = await fetch(`/user/movies/${data.movie_id}`, {
           method: "PUT",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -134,7 +134,7 @@ const UserMoviesList = ({ item, setMoviesArray }) => {
       e.preventDefault();
 
       try {
-        const response = await fetch(`http://localhost:5000/user/movies/${data.movie_id}`, {
+        const response = await fetch(`/user/movies/${data.movie_id}`, {
           method: "DELETE",
           credentials: "include",
         });

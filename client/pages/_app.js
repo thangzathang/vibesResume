@@ -25,7 +25,7 @@ export default function App({ Component, pageProps }) {
 
   async function checkAuth() {
     try {
-      const response = await fetch("http://localhost:5000/auth/verify", {
+      const response = await fetch(`/auth/verify`, {
         method: "GET",
         credentials: "include",
       });
