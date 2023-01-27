@@ -25,7 +25,12 @@ router.get("/myMovies", authorization, async (req, res) => {
 
     console.log("User movies:", userMovies.rows);
 
-    res.status(200).send(userMovies.rows);
+    // We do not want to send back nulls.
+    if (userMovies.rows[0].movie_id === null) {
+      return res.status(200).send(null);
+    }
+
+    return res.status(200).send(userMovies.rows);
   } catch (error) {
     console.log("Error at Homepage route", error);
     res.status(500).send("Server Error -  at Homepage route");
@@ -51,9 +56,34 @@ router.put("/movies/:movie_id", authorization, async (req, res) => {
       [movie_id, movie_description, movie_rating]
     );
 
-    res.json("Movie was updated!");
+    res.status(200).send({ message: "Movie was updated!", status: true });
   } catch (error) {
+    res.status(401).send({ message: "Error with movie update on server.", status: false });
     console.log("Error at UPDATE a [specific] movie:", error);
+  }
+});
+
+// 3. Delete a movie.
+router.delete("/movies/:movie_id", authorization, async (req, res) => {
+  try {
+    const { movie_id } = req.params;
+    // console.log("Movie to delete:", movie_id);
+
+    const deleteMovie = await pool.query(
+      `
+      DELETE FROM movies
+      WHERE movie_id = $1
+      `,
+      [movie_id]
+    );
+
+    console.log("Movie was deleted!");
+    return res.status(200).send({ message: "Movie was deleted" });
+
+    // const allMovies = await pool.query(`SELECT * FROM movies`);
+    // res.json(allMovies.rows);
+  } catch (error) {
+    console.log("Error at DELETE a [specific] movie:", error);
   }
 });
 

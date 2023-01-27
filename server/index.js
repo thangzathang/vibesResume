@@ -107,26 +107,6 @@ app.get("/movies/:movie_id", async (req, res) => {
   }
 });
 
-// 5. Delete a movie.
-app.delete("/movies/:movie_id", async (req, res) => {
-  try {
-    const { movie_id } = req.params;
-    const deleteMovie = await pool.query(
-      `
-      DELETE FROM movies
-      WHERE movie_id = $1
-      `,
-      [movie_id]
-    );
-
-    console.log("Movie was deleted!");
-    const allMovies = await pool.query(`SELECT * FROM movies`);
-    res.json(allMovies.rows);
-  } catch (error) {
-    console.log("Error at DELETE a [specific] movie:", error);
-  }
-});
-
 /* Auth */
 
 // Register and Login Routes.
