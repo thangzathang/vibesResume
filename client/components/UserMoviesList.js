@@ -3,7 +3,10 @@ import React, { useEffect, useState } from "react";
 // Flowbite react
 import { Modal, Label, TextInput, Checkbox, Button, Textarea, Select, Spinner } from "flowbite-react";
 
-const UserMoviesList = ({ item }) => {
+// Toast
+import { toast } from "react-toastify";
+
+const UserMoviesList = ({ item, setMoviesArray }) => {
   const [itemCopy, setItemCopy] = useState(item);
   // Modal State - Edit and Delete
   const [openEditModal, setEditModal] = useState(false);
@@ -18,14 +21,22 @@ const UserMoviesList = ({ item }) => {
     const [movieRating, setMovieRating] = useState(data.movie_rating);
 
     // Submit handler
-    async function handleEditSubmit() {
-      // Set Loading to true
-      setLoading(true);
+    async function handleEditSubmit(e) {
+      e.preventDefault();
 
       const dataBody = {
         movie_description: newMovieDescription,
         movie_rating: movieRating,
       };
+
+      // Update the View
+      setItemCopy((prev) => {
+        return {
+          ...prev,
+          movie_description: newMovieDescription,
+          movie_rating: movieRating,
+        };
+      });
 
       try {
         const response = await fetch(`http://localhost:5000/user/movies/${data.movie_id}`, {
@@ -36,20 +47,11 @@ const UserMoviesList = ({ item }) => {
         });
 
         if (response) {
-          // 1. Set Loading to true
-          setLoading(false);
-          // 2. Close the Modal
           setEditModal(false);
-          // 3. Update the View
-          setItemCopy((prev) => {
-            return {
-              ...prev,
-              movie_description: newMovieDescription,
-              movie_rating: movieRating,
-            };
-          });
+          toast("Movie updated!");
         }
       } catch (error) {
+        toast.error("Error with updating movie!");
         console.log("Error at updating past user media", error);
       }
     }
@@ -128,41 +130,62 @@ const UserMoviesList = ({ item }) => {
 
   // Delete Modal
   const DeleteModal = ({ data }) => {
+    async function handleDeleteSubmit(e) {
+      e.preventDefault();
+
+      try {
+        const response = await fetch(`http://localhost:5000/user/movies/${data.movie_id}`, {
+          method: "DELETE",
+          credentials: "include",
+        });
+
+        // Update the View
+        setMoviesArray((prev) => {
+          const copy = [...prev];
+          console.log("All movies:", copy);
+          const newMoviesArray = copy.filter((item) => item.movie_id !== data.movie_id);
+          console.log("newMoviesArray:", newMoviesArray);
+          return [...newMoviesArray];
+        });
+
+        if (response) {
+          toast("Movie deleted");
+          setDeleteModal(false);
+        }
+      } catch (error) {
+        toast.error("Error with deleting the movie.");
+        console.log("Error at updating past user media", error);
+      }
+    }
+
     return (
       <Modal show={openDeleteModal} size="md" popup={true} onClose={() => setDeleteModal(false)}>
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6 px-6 pb-4 sm:pb-6 lg:px-8 xl:pb-8">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Delete Modal</h3>
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              Confirm you want to <span className="font-bold text-red-600 underline">delete</span> {data.movie_name}.
+            </h3>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="email" value="Your email" />
+                <Label className="block pb-2 text-lg" htmlFor="description" value={"Movie description:"} />
+                <Label htmlFor="description" value={data.movie_description} />
               </div>
-              <TextInput id="email" placeholder="" required={true} />
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="password" value="Your password" />
+                <Label className="block pb-2 text-lg" htmlFor="rating" value={"You rated the movie: "} />
+                <Label htmlFor="rating" value={`${data.movie_rating} / 10`} />
               </div>
-              <TextInput id="password" type="password" required={true} />
             </div>
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2">
-                <Checkbox id="remember" />
-                <Label htmlFor="remember">Remember me</Label>
-              </div>
-              <a href="/modal" className="text-sm text-blue-700 hover:underline dark:text-blue-500">
-                Lost Password?
-              </a>
-            </div>
-            <div className="w-full">
-              <Button>Log in to your account</Button>
-            </div>
-            <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-              Not registered?{" "}
-              <a href="/modal" className="text-blue-700 hover:underline dark:text-blue-500">
-                Create account
-              </a>
+            <div className="w-full flex justify-end">
+              <Button className="mr-2 bg-gray-500" onClick={() => setDeleteModal(false)}>
+                Cancel
+              </Button>
+
+              <Button className="bg-red-600" onClick={handleDeleteSubmit}>
+                Confirm
+              </Button>
             </div>
           </div>
         </Modal.Body>
@@ -174,7 +197,7 @@ const UserMoviesList = ({ item }) => {
     /* Loading Spinner */
   }
   {
-    loading && <Spinner aria-label="Default status example" />;
+    // loading && <Spinner aria-label="Default status example" />;
   }
 
   return (
