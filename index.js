@@ -8,6 +8,17 @@ const path = require("path");
 const app = express();
 dotenv.config();
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
+// Middleware
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(cookieParser());
+
 // Heroku configs
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV === "production") {
@@ -29,17 +40,6 @@ const pool = require("./db");
 // console.log("pool:", pool);
 
 // PORT
-
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-
-// Middleware
-app.use(cookieParser());
-app.use(cors(corsOptions));
-app.use(express.json());
 
 // ROUTES
 
