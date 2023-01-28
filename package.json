@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "server for the pern application vibes resume ",
   "main": "index.js",
+  "engines": {
+    "node": "18.13.0",
+    "npm": "8.19.3"
+  },
   "scripts": {
     "start": "node index.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
