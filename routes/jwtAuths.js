@@ -80,7 +80,7 @@ router.post("/login", validInfo, async (req, res) => {
     // 2. Check if user exists
     const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
 
-    // console.log("User is:", user.rows[0]);
+    console.log("User is:", user.rows[0]);
 
     // If user does not exist
     if (user.rows.length === 0) {
@@ -97,15 +97,16 @@ router.post("/login", validInfo, async (req, res) => {
 
     // 4. Give JWT Token
     const token = jwtGenerator(user.rows[0].user_id);
-    // console.log("Token login:", token);
+    console.log("Token login:", token);
 
     const userBody = {
       user_id: user.rows[0].user_id,
       user_name: user.rows[0].user_name,
       user_email: user.rows[0].user_email,
     };
-    // console.log("User body:", userBody);
+    console.log("User body:", userBody);
 
+    console.log("Sending token and user back");
     // 5. Send JWT as cookie
     res
       .cookie("token", token, {

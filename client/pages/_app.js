@@ -24,6 +24,8 @@ export default function App({ Component, pageProps }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   async function checkAuth() {
+    let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
+
     try {
       const response = await fetch(`/auth/verify`, {
         method: "GET",

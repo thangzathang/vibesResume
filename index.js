@@ -2,7 +2,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
+// Database
+const pool = require("./db");
 const path = require("path");
 
 const app = express();
@@ -35,8 +36,6 @@ const authRoutes = require("./routes/jwtAuths");
 const homepageRoutes = require("./routes/homepage");
 const userRoutes = require("./routes/userRoutes");
 
-// Database
-const pool = require("./db");
 // console.log("pool:", pool);
 
 // PORT

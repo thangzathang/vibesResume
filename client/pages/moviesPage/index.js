@@ -43,6 +43,7 @@ const index = () => {
 
   const getProfile = async () => {
     try {
+      let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
       const res = await fetch(`/homepage/`, {
         method: "GET",
         credentials: "include",
@@ -62,7 +63,9 @@ const index = () => {
   }, []);
 
   // Fetch all movies
-  const { data, error, isLoading } = useSWR("/movies", fetcher);
+  // let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "" ? NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
+  // console.log("process.env.NEXT_PUBLIC_PRODUCTION:", process.env.NEXT_PUBLIC_PRODUCTION);
+  const { data, error, isLoading } = useSWR(`/movies`, fetcher);
   if (error) return <div>failed to load</div>;
 
   // Handle Submit
@@ -102,6 +105,8 @@ const index = () => {
         imageurl: moviePosterURL,
         // user_id: userId,
       };
+
+      let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
       const response = await fetch(`/homepage/movies`, {
         method: "POST",
         credentials: "include",
