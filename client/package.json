@@ -8,15 +8,15 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
     "flowbite": "^1.6.0",
     "flowbite-react": "^0.3.7",
-    "next": "^13.1.1",
+    "next": "^13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-toastify": "^9.1.1",
     "swr": "^2.0.0",
     "autoprefixer": "^10.4.13"
-  },
-  "dependencies": {}
+  }
 }
