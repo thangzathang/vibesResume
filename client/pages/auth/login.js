@@ -36,7 +36,7 @@ const Login = () => {
     try {
       const body = { password, email };
       let localHost = process.env.NEXT_PUBLIC_API;
-      console.log("Calling:", localHost);
+      console.log("Calling:", `${localHost}/auth/login`);
       const response = await fetch(`${localHost}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
