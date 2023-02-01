@@ -35,6 +35,7 @@ const authorization = require("./middleware/authorization");
 const authRoutes = require("./routes/jwtAuths");
 const homepageRoutes = require("./routes/homepage");
 const userRoutes = require("./routes/userRoutes");
+const { receiveMessageOnPort } = require("worker_threads");
 
 // console.log("pool:", pool);
 
@@ -43,6 +44,10 @@ const userRoutes = require("./routes/userRoutes");
 // ROUTES
 
 /* Movie */
+
+app.get("/", (req, res) => {
+  res.send("This is the P.E.R.N stack application!");
+});
 
 // 1. Create a movie.
 app.post("/movies", async (req, res) => {
