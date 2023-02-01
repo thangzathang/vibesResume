@@ -52,6 +52,9 @@ router.post("/register", validInfo, async (req, res) => {
     // 6. Send JWT
     res
       .cookie("token", token, {
+        sameSite: "none",
+        secure: true,
+        domain: "https://vibes-resume-thangzathang.vercel.app",
         httpOnly: true,
       })
       .status(200)
@@ -110,6 +113,9 @@ router.post("/login", validInfo, async (req, res) => {
     // 5. Send JWT as cookie
     res
       .cookie("token", token, {
+        sameSite: "none",
+        secure: true,
+        domain: "https://vibes-resume-thangzathang.vercel.app",
         httpOnly: true,
       })
       .status(200)
@@ -143,6 +149,9 @@ router.post("/logout", async (req, res) => {
     const token = "";
     return res
       .cookie("token", token, {
+        sameSite: "none",
+        secure: true,
+        domain: "https://vibes-resume-thangzathang.vercel.app",
         httpOnly: true,
       })
       .status(200)

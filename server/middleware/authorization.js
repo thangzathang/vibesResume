@@ -13,6 +13,9 @@ module.exports = async (req, res, next) => {
 
       return res
         .cookie("token", token, {
+          sameSite: "none",
+          secure: true,
+          domain: "https://vibes-resume-thangzathang.vercel.app",
           httpOnly: true,
         })
         .status(403)
@@ -30,6 +33,9 @@ module.exports = async (req, res, next) => {
     const token = "";
     res
       .cookie("token", token, {
+        sameSite: "none",
+        secure: true,
+        domain: "https://vibes-resume-thangzathang.vercel.app",
         httpOnly: true,
       })
       .status(403)
