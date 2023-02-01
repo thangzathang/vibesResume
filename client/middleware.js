@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 
 export async function middleware(request) {
   const cookie = request.cookies.get("token")?.value;
-  // console.log("Token Cookie:", cookie?.length);
+  console.log("Token Cookie:", cookie?.length);
 
   // if (request.url.includes("/moviesPage") && !cookie) {
   //   const url = request.nextUrl.clone();
@@ -14,6 +14,7 @@ export async function middleware(request) {
   // }
 
   if (!cookie && !request.url.includes("/auth/register")) {
+    console.log("No Cookie so redirecting to /auth/register");
     // 2. Redirect to Login
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
@@ -22,6 +23,7 @@ export async function middleware(request) {
 
   // Login and register will not be available to authenticated users. They will have to log out first.
   if (request.url.includes("/auth/login") && cookie) {
+    console.log("Redirecting to MoviePage - already logged in!");
     const url = request.nextUrl.clone();
     url.pathname = "/moviesPage";
     return NextResponse.redirect(url);
