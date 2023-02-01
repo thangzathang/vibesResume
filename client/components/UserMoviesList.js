@@ -39,8 +39,8 @@ const UserMoviesList = ({ item, setMoviesArray }) => {
       });
 
       try {
-        let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
-        const response = await fetch(`/user/movies/${data.movie_id}`, {
+        let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
+        const response = await fetch(`${localHost}/user/movies/${data.movie_id}`, {
           method: "PUT",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -135,8 +135,8 @@ const UserMoviesList = ({ item, setMoviesArray }) => {
       e.preventDefault();
 
       try {
-        let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
-        const response = await fetch(`/user/movies/${data.movie_id}`, {
+        let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
+        const response = await fetch(`${localHost}/user/movies/${data.movie_id}`, {
           method: "DELETE",
           credentials: "include",
         });

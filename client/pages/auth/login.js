@@ -35,10 +35,9 @@ const Login = () => {
 
     try {
       const body = { password, email };
+      let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
 
-      let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
-
-      const response = await fetch(`/auth/login`, {
+      const response = await fetch(`${localHost}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

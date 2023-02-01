@@ -12,9 +12,10 @@ const NavbarComponent = ({ isAuthenticated }) => {
 
   async function logout() {
     // 1. Set cookies to false
-    let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
+    // let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
+    let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
     try {
-      const response = await fetch(`/auth/logout`, {
+      const response = await fetch(`${localHost}/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
