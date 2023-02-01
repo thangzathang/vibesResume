@@ -64,7 +64,7 @@ const index = () => {
 
   // Fetch all movies
   let localHost = process.env.NEXT_PUBLIC_API;
-  // console.log("Local host:", localHost);
+  console.log("Local host:", localHost);
   const { data, error, isLoading } = useSWR(`${localHost}/movies`, fetcher);
 
   if (error) return <div>failed to load</div>;
@@ -109,6 +109,7 @@ const index = () => {
 
       let localHost = process.env.NEXT_PUBLIC_API;
       console.log("Calling:", localHost);
+
       const response = await fetch(`${localHost}/homepage/movies`, {
         method: "POST",
         credentials: "include",
