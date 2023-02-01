@@ -10,7 +10,7 @@ const path = require("path");
 const app = express();
 
 const corsOptions = {
-  origin: process.env.FRONT_END_URL,
+  origin: [process.env.FRONT_END_URL],
   credentials: true,
   optionSuccessStatus: 200,
 };
