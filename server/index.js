@@ -10,11 +10,11 @@ const app = express();
 dotenv.config();
 
 const corsOptions = {
-  origin: "https://vibes-resume.vercel.app/",
+  origin: process.env.FRONT_END_URL,
   credentials: true,
   optionSuccessStatus: 200,
 };
-
+console.log("Cors Option:", corsOptions);
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -35,7 +35,6 @@ const authorization = require("./middleware/authorization");
 const authRoutes = require("./routes/jwtAuths");
 const homepageRoutes = require("./routes/homepage");
 const userRoutes = require("./routes/userRoutes");
-const { receiveMessageOnPort } = require("worker_threads");
 
 // console.log("pool:", pool);
 
