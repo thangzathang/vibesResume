@@ -33,7 +33,7 @@ const Register = () => {
     try {
       const body = { username, password, email };
 
-      let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
+      let localHost = process.env.NEXT_PUBLIC_API;
 
       const response = await fetch(`${localHost}/auth/register`, {
         method: "POST",

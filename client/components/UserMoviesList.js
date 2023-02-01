@@ -39,7 +39,7 @@ const UserMoviesList = ({ item, setMoviesArray }) => {
       });
 
       try {
-        let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
+        let localHost = process.env.NEXT_PUBLIC_API;
         const response = await fetch(`${localHost}/user/movies/${data.movie_id}`, {
           method: "PUT",
           credentials: "include",
@@ -135,7 +135,7 @@ const UserMoviesList = ({ item, setMoviesArray }) => {
       e.preventDefault();
 
       try {
-        let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
+        let localHost = process.env.NEXT_PUBLIC_API;
         const response = await fetch(`${localHost}/user/movies/${data.movie_id}`, {
           method: "DELETE",
           credentials: "include",

@@ -25,7 +25,7 @@ export default function App({ Component, pageProps }) {
 
   async function checkAuth() {
     try {
-      let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
+      let localHost = process.env.NEXT_PUBLIC_API;
       const response = await fetch(`${localHost}/auth/verify`, {
         method: "GET",
         credentials: "include",

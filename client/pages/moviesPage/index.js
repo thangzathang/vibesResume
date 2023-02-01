@@ -43,7 +43,7 @@ const index = () => {
 
   const getProfile = async () => {
     try {
-      let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
+      let localHost = process.env.NEXT_PUBLIC_API;
       const res = await fetch(`${localHost}/homepage/`, {
         method: "GET",
         credentials: "include",
@@ -63,7 +63,7 @@ const index = () => {
   }, []);
 
   // Fetch all movies
-  let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
+  let localHost = process.env.NEXT_PUBLIC_API;
   // console.log("Local host:", localHost);
   const { data, error, isLoading } = useSWR(`${localHost}/movies`, fetcher);
 
@@ -107,7 +107,7 @@ const index = () => {
         // user_id: userId,
       };
 
-      let localHost = process.env.NEXT_PUBLIC_LOCALHOST;
+      let localHost = process.env.NEXT_PUBLIC_API;
       const response = await fetch(`${localHost}/homepage/movies`, {
         method: "POST",
         credentials: "include",
