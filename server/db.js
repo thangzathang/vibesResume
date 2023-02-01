@@ -9,26 +9,26 @@ const devConfig = {
   port: process.env.PG_PORT,
 };
 
-// const prodConfig = {
-//   // This will come from heroku (add on).
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//     rejectUnauthorized: false,
-//   },
-// };
+const prodConfig = {
+  // This will come from heroku (add on).
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+};
 
-// const pool = new Pool(process.env.NODE_ENV === "production" ? prodConfig : devConfig);
+const pool = new Pool(process.env.NODE_ENV === "production" ? prodConfig : devConfig);
 
-const pool =
-  process.env.NODE_ENV === "production"
-    ? new Pool({
-        connectionString: prodConfig,
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      })
-    : new Pool({
-        connectionString: devConfig,
-      });
+// const pool =
+//   process.env.NODE_ENV === "production"
+//     ? new Pool({
+//         connectionString: prodConfig,
+//         ssl: {
+//           rejectUnauthorized: false,
+//         },
+//       })
+//     : new Pool({
+//         connectionString: devConfig,
+//       });
 
 module.exports = pool;
