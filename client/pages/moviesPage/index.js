@@ -108,6 +108,7 @@ const index = () => {
       };
 
       let localHost = process.env.NEXT_PUBLIC_API;
+      console.log("Calling:", localHost);
       const response = await fetch(`${localHost}/homepage/movies`, {
         method: "POST",
         credentials: "include",
