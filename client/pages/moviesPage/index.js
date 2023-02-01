@@ -43,8 +43,8 @@ const index = () => {
 
   const getProfile = async () => {
     try {
-      let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
-      const res = await fetch(`/homepage/`, {
+      let localHost = process.env.NEXT_PUBLIC_API;
+      const res = await fetch(`${localHost}/homepage/`, {
         method: "GET",
         credentials: "include",
       });
@@ -63,9 +63,10 @@ const index = () => {
   }, []);
 
   // Fetch all movies
-  // let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "" ? NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
-  // console.log("process.env.NEXT_PUBLIC_PRODUCTION:", process.env.NEXT_PUBLIC_PRODUCTION);
-  const { data, error, isLoading } = useSWR(`/movies`, fetcher);
+  let localHost = process.env.NEXT_PUBLIC_API;
+  // console.log("Local host:", localHost);
+  const { data, error, isLoading } = useSWR(`${localHost}/movies`, fetcher);
+
   if (error) return <div>failed to load</div>;
 
   // Handle Submit
@@ -106,8 +107,9 @@ const index = () => {
         // user_id: userId,
       };
 
-      let proxy = process.env.NEXT_PUBLIC_PRODUCTION === "production" ? process.env.NEXT_PUBLIC_PRODUCTION : "http://localhost:5000";
-      const response = await fetch(`/homepage/movies`, {
+      let localHost = process.env.NEXT_PUBLIC_API;
+      console.log("Calling:", localHost);
+      const response = await fetch(`${localHost}/homepage/movies`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

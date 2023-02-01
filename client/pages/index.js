@@ -1,17 +1,7 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "../styles/Home.module.css";
+import React from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const index = () => {
+  return <div className="min-h-screen bg-gray-900 text-white text-2xl">Hello</div>;
+};
 
-export default function Home() {
-  let show = process.env.NEXT_PUBLIC_PRODUCTION;
-  return (
-    <div className="bg-gray-900 min-h-screen">
-      <small>
-        You are running this application in <b>{show}</b> mode.
-      </small>
-    </div>
-  );
-}
+export default index;
