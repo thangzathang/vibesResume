@@ -12,13 +12,12 @@ module.exports = async (req, res, next) => {
       const token = "";
 
       return res
+        .status(403)
         .cookie("token", token, {
           sameSite: "none",
           secure: true,
-          domain: "https://vibes-resume-thangzathang.vercel.app",
           httpOnly: true,
         })
-        .status(403)
         .send({ verified: false, message: "You are not authorized! New empty cookie sent!" });
     }
 
@@ -31,14 +30,14 @@ module.exports = async (req, res, next) => {
 
     // Expired token means send back an empty token so that user is directed to login page in the client side.
     const token = "";
-    res
+    return res
+      .status(403)
       .cookie("token", token, {
         sameSite: "none",
         secure: true,
         domain: "https://vibes-resume-thangzathang.vercel.app",
         httpOnly: true,
       })
-      .status(403)
       .send({ verified: false, message: "You are not authorized! New empty cookie sent!" });
   }
 };

@@ -50,14 +50,13 @@ router.post("/register", validInfo, async (req, res) => {
     const token = jwtGenerator(newUser.rows[0].user_id);
 
     // 6. Send JWT
-    res
+    return res
+      .status(200)
       .cookie("token", token, {
         sameSite: "none",
         secure: true,
-        domain: "https://vibes-resume-thangzathang.vercel.app",
         httpOnly: true,
       })
-      .status(200)
       .send({
         token,
         user: {
@@ -111,14 +110,13 @@ router.post("/login", validInfo, async (req, res) => {
 
     console.log("Sending token and user back");
     // 5. Send JWT as cookie
-    res
+    return res
+      .status(200)
       .cookie("token", token, {
         sameSite: "none",
         secure: true,
-        domain: "https://vibes-resume-thangzathang.vercel.app",
         httpOnly: true,
       })
-      .status(200)
       .send({
         token,
         user: userBody,
@@ -127,7 +125,7 @@ router.post("/login", validInfo, async (req, res) => {
     // res.status(200).send({ token });
   } catch (error) {
     console.log("Error at Login Route", error);
-    res.status(500).send("Server Error -  at Logging in");
+    return res.status(500).send("Server Error -  at Logging in");
   }
 });
 
@@ -148,13 +146,13 @@ router.post("/logout", async (req, res) => {
   try {
     const token = "";
     return res
+      .status(200)
       .cookie("token", token, {
         sameSite: "none",
         secure: true,
         domain: "https://vibes-resume-thangzathang.vercel.app",
         httpOnly: true,
       })
-      .status(200)
       .send({ message: "Logging out" });
   } catch (error) {
     console.log("Error at Logout Route", error);
