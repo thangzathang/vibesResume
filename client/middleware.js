@@ -42,7 +42,7 @@ export async function middleware(request) {
   // }
 
   // Infinite loop - dont use
-  if (token ? token.length === 0 : false && request.url.includes("/moviesPage")) {
+  if (token ? token.length === 0 : true && request.url.includes("/moviesPage")) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     return NextResponse.rewrite(url);
