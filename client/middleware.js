@@ -21,11 +21,7 @@ export async function middleware(request) {
       return NextResponse.rewrite(url);
     }
 
-    try {
-      return NextResponse.next();
-    } catch (error) {
-      return NextResponse.redirect("/auth/login");
-    }
+    return NextResponse.next();
   }
 
   return NextResponse.next();
