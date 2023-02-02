@@ -19,7 +19,7 @@ export async function middleware(request) {
   if (request.url.includes("/moviesPage") && !token) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
-    return NextResponse.redirect(url);
+    return NextResponse.rewrite(url);
   }
 
   // const url = req.nextUrl;
