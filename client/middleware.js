@@ -16,7 +16,7 @@ export async function middleware(request) {
     return NextResponse.next();
   }
 
-  if (pathname === "/moviesPage") return NextResponse.next();
+  if (pathname === "/auth/login") return NextResponse.next();
 
   // If logged in - no need to login or register
   if (!cookie) {
