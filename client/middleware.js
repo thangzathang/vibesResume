@@ -8,21 +8,22 @@ export async function middleware(request) {
   const { pathname } = request.nextUrl;
   const cookie = await request.cookies.get("token")?.value;
 
-  if (pathname === "/auth/login") return NextResponse.next();
+  if (
+    pathname.startsWith("/_next") || // exclude Next.js internals
+    pathname.startsWith("/api") || //  exclude all API routes
+    pathname.startsWith("/static") // exclude static files
+  )
+    return NextResponse.next();
 
-  if (pathname === "/moviesPage" && cookie) return NextResponse.next();
-
-  // If logged in - no need to login or register
+  // Not authenticated - no cookie
   if (!cookie) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    return NextResponse.redirect(url);
+    const loginUrl = new URL("/auth/login", request.url);
+    if (pathname.startsWith("/moviesPage")) {
+      return NextResponse.redirect(loginUrl);
+    } else {
+      return NextResponse.next();
+    }
   }
-  // // If logged in - no need to login or register
-  // if (cookie && pathname === "/auth/register") {
-  //   request.nextUrl.pathname = "/moviesPage";
-  //   return NextResponse.redirect(request.nextUrl);
-  // }
 
   return NextResponse.next();
 
