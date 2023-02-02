@@ -4,32 +4,69 @@ import { NextRequest } from "next/server";
 // This function can be marked `async` if using `await` inside
 
 export async function middleware(request) {
-  // console.log("Token Cookie length:", cookie.length);
+  const token = await request.cookies.get("token")?.value;
+  console.log("Token:", token);
   const { pathname } = request.nextUrl;
-  const cookie = await request.cookies.get("token")?.value;
 
-  if (
-    pathname.startsWith("/_next") || // exclude Next.js internals
-    pathname.startsWith("/api") || //  exclude all API routes
-    pathname.startsWith("/static") // exclude static files
-  )
-    return NextResponse.next();
-
-  if (cookie) {
+  if (request.url.includes("/auth/login")) {
     return NextResponse.next();
   }
 
-  // Not authenticated - no cookie
-  if (!cookie) {
-    const loginUrl = new URL("/auth/login", request.url);
-    if (!pathname.startsWith("/auth")) {
-      return NextResponse.redirect(loginUrl);
-    } else {
-      return NextResponse.next();
-    }
+  if (request.url.includes("/moviesPage") && !token) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/login";
+    return NextResponse.redirect(url);
   }
 
-  return NextResponse.next();
+  // const url = req.nextUrl;
+  // let changed = false;
+  // if (
+  //   pathname.startsWith("/_next") || // exclude Next.js internals
+  //   pathname.startsWith("/api") || //  exclude all API routes
+  //   pathname.startsWith("/static") // exclude static files
+  // ) {
+  //   return NextResponse.next();
+  // }
+
+  // const token = req.cookies.get("token")?.value;
+
+  // if (token) {
+  //   console.log("Changed token:", token);
+  //   changed = true;
+  // }
+
+  // // Avoid infinite loop by only redirecting if the query params were changed
+  // if (changed) {
+  //   return NextResponse.redirect(url);
+  // } else {
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = "/auth/login";
+  //   return NextResponse.redirect(url);
+  // }
+
+  // console.log("Token Cookie length:", cookie.length);
+  // Old 2
+  // const { pathname } = request.nextUrl;
+  // const cookie = await request.cookies.get("token")?.value;
+  // if (
+  //   pathname.startsWith("/_next") || // exclude Next.js internals
+  //   pathname.startsWith("/api") || //  exclude all API routes
+  //   pathname.startsWith("/static") // exclude static files
+  // )
+  //   return NextResponse.next();
+  // if (cookie) {
+  //   return NextResponse.next();
+  // }
+  // // Not authenticated - no cookie
+  // if (!cookie) {
+  //   const loginUrl = new URL("/auth/login", request.url);
+  //   if (!pathname.startsWith("/auth")) {
+  //     return NextResponse.redirect(loginUrl);
+  //   } else {
+  //     return NextResponse.next();
+  //   }
+  // }
+  // return NextResponse.next();
 
   // Old
   // if (request.url.includes("/moviesPage") && !cookie) {
