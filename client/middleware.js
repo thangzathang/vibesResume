@@ -11,10 +11,10 @@ export async function middleware(request) {
   if (pathname === "/auth/login") return NextResponse.next();
 
   // If logged in - no need to login or register
-  // if (!cookie) {
-  //   request.nextUrl.pathname = "/auth/login";
-  //   return NextResponse.redirect(request.nextUrl);
-  // }
+  if (!cookie) {
+    request.nextUrl.pathname = "/auth/login";
+    return NextResponse.redirect(request.nextUrl);
+  }
   // // If logged in - no need to login or register
   // if (cookie && pathname === "/auth/register") {
   //   request.nextUrl.pathname = "/moviesPage";
