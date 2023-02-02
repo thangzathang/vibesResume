@@ -41,14 +41,14 @@ export async function middleware(request) {
   //   return NextResponse.rewrite(url);
   // }
 
-  // Infinite loop - dont use
   if (token ? token.length === 0 : true && request.url.includes("/moviesPage")) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     return NextResponse.rewrite(url);
-  } else {
-    return NextResponse.next();
   }
+  // else {
+  //   return NextResponse.next();
+  // }
 }
 
 // See "Matching Paths" below to learn more
