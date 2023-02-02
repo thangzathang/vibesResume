@@ -41,10 +41,10 @@ export const config = {
   matcher: [
     //
     // "/",
-    // "/moviesPage",
-    // "/auth/login",
-    // "/auth/register",
-    // "/user/myReviews",
-    // "/user/myMovies",
+    "/moviesPage",
+    "/auth/login",
+    "/auth/register",
+    "/user/myReviews",
+    "/user/myMovies",
   ],
 };
