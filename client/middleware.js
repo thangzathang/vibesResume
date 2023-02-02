@@ -16,9 +16,14 @@ export async function middleware(request) {
   }
 
   // Must be logged in to see Movies Page.
-  if (cookie.length === 0) {
-    request.nextUrl.pathname = "/auth/login";
-    return NextResponse.rewrite(request.nextUrl);
+  const url = request.nextUrl.clone();
+
+  if (url.pathname === "/moviesPage") {
+    if (!cookie) {
+      url.pathname = "/auth/login";
+      return NextResponse.redirect(url);
+    }
+    return;
   }
 
   // If logged in - no need to login or register
