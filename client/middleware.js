@@ -4,42 +4,34 @@ import { NextRequest } from "next/server";
 // This function can be marked `async` if using `await` inside
 
 export async function middleware(request) {
-  console.log("Token Cookie length:", cookie.length);
-  const { pathname } = request.nextUrl;
-  const cookie = await request.cookies.get("token")?.value;
-
-  if (
-    pathname.startsWith("/api") || //  exclude all API routes
-    pathname.startsWith("/static") || // exclude static files
-    pathname.includes(".") // exclude all files in the public folder
-  ) {
-    return NextResponse.next();
-  }
-
-  if (pathname === "/auth/login") return NextResponse.next();
-
-  // If logged in - no need to login or register
-  if (!cookie) {
-    request.nextUrl.pathname = "/auth/login";
-    return NextResponse.redirect(request.nextUrl);
-  }
-
-  // If logged in - no need to login or register
-  if (cookie && pathname === "/auth/register") {
-    request.nextUrl.pathname = "/moviesPage";
-    return NextResponse.redirect(request.nextUrl);
-  }
-
-  return NextResponse.next();
-
+  // console.log("Token Cookie length:", cookie.length);
+  // const { pathname } = request.nextUrl;
+  // const cookie = await request.cookies.get("token")?.value;
+  // if (
+  //   pathname.startsWith("/api") || //  exclude all API routes
+  //   pathname.startsWith("/static") || // exclude static files
+  //   pathname.includes(".") // exclude all files in the public folder
+  // ) {
+  //   return NextResponse.next();
+  // }
+  // if (pathname === "/auth/login") return NextResponse.next();
+  // // If logged in - no need to login or register
+  // if (!cookie) {
+  //   request.nextUrl.pathname = "/auth/login";
+  //   return NextResponse.redirect(request.nextUrl);
+  // }
+  // // If logged in - no need to login or register
+  // if (cookie && pathname === "/auth/register") {
+  //   request.nextUrl.pathname = "/moviesPage";
+  //   return NextResponse.redirect(request.nextUrl);
+  // }
+  // return NextResponse.next();
   // Old
-
   // if (request.url.includes("/moviesPage") && !cookie) {
   //   const url = request.nextUrl.clone();
   //   url.pathname = "/auth/login";
   //   return NextResponse.rewrite(url);
   // }
-
   // if (!cookie && !request.url.includes("/auth/register")) {
   //   console.log("No Cookie so redirecting to /auth/register");
   //   // 2. Redirect to Login
@@ -47,7 +39,6 @@ export async function middleware(request) {
   //   url.pathname = "/auth/login";
   //   return NextResponse.rewrite(url);
   // }
-
   // Login and register will not be available to authenticated users. They will have to log out first.
   // if (request.url.includes("/auth/login") && cookie) {
   //   console.log("Redirecting to MoviePage - already logged in!");
@@ -55,7 +46,6 @@ export async function middleware(request) {
   //   url.pathname = "/moviesPage";
   //   return NextResponse.redirect(url);
   // }
-
   // if (request.url.includes("/auth/register") && cookie) {
   //   const url = request.nextUrl.clone();
   //   url.pathname = "/moviesPage";
