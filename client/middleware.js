@@ -4,27 +4,24 @@ import { NextRequest } from "next/server";
 // This function can be marked `async` if using `await` inside
 
 export async function middleware(request) {
-  const cookie = await request.cookies.get("token")?.value;
   console.log("Token Cookie length:", cookie.length);
-
   const { pathname } = request.nextUrl;
+  const cookie = await request.cookies.get("token")?.value;
 
-  // If logged in - no need to login or register
-  if (cookie && pathname === "/auth/login") {
-    request.nextUrl.pathname = "/moviesPage";
-    return NextResponse.redirect(request.nextUrl);
+  if (
+    pathname.startsWith("/api") || //  exclude all API routes
+    pathname.startsWith("/static") || // exclude static files
+    pathname.includes(".") // exclude all files in the public folder
+  ) {
+    return NextResponse.next();
   }
 
-  // Must be logged in to see Movies Page.
-  const url = request.nextUrl.clone();
+  if (pathname === "/moviesPage") return NextResponse.next();
 
-  if (url.pathname === "/moviesPage") {
-    if (!cookie) {
-      console.log("No Cookies");
-      url.pathname = "/auth/login";
-      return NextResponse.redirect(url);
-    }
-    return;
+  // If logged in - no need to login or register
+  if (!cookie) {
+    request.nextUrl.pathname = "/auth/login";
+    return NextResponse.redirect(request.nextUrl);
   }
 
   // If logged in - no need to login or register
@@ -33,7 +30,7 @@ export async function middleware(request) {
     return NextResponse.redirect(request.nextUrl);
   }
 
-  // return NextResponse.next();
+  return NextResponse.next();
 
   // Old
 
