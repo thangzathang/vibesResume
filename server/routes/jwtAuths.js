@@ -150,7 +150,6 @@ router.post("/logout", async (req, res) => {
       .cookie("token", token, {
         sameSite: "none",
         secure: true,
-        domain: "https://vibes-resume-thangzathang.vercel.app",
         httpOnly: true,
       })
       .send({ message: "Logging out" });
