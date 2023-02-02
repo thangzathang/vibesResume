@@ -6,11 +6,11 @@ import { NextRequest } from "next/server";
 export async function middleware(request) {
   const token = await request.cookies.get("token")?.value;
 
-  console.log("Token is 0:", token === 0);
-  console.log("Token is false:", token === false);
-  console.log("Token is undefined:", token === undefined);
-  console.log("Token is length:", token.length);
-  console.log("Token is length 0:", token.length === 0);
+  // console.log("Token is 0:", token === 0);
+  // console.log("Token is false:", token === false);
+  // console.log("Token is undefined:", token === undefined);
+  // console.log("Token is length:", token && token.length);
+  // console.log("Token is length 0:", token ? token?.length === 0 : false);
 
   const { pathname } = request.nextUrl;
 
@@ -42,7 +42,7 @@ export async function middleware(request) {
   // }
 
   // Infinite loop - dont use
-  if (token.length === 0 && request.url.includes("/moviesPage")) {
+  if (token && token.length === 0 && request.url.includes("/moviesPage")) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     return NextResponse.rewrite(url);
