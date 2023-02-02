@@ -7,27 +7,51 @@ export async function middleware(request) {
   const cookie = request.cookies.get("token")?.value;
   console.log("Token Cookie:", cookie?.length);
 
+  const { pathname } = request.nextUrl;
+
+  // Must be logged in to see Movies Page.
+  if (!cookie && pathname === "/moviesPage") {
+    request.nextUrl.pathname = "/auth/login";
+    return NextResponse.redirect(request.nextUrl);
+  }
+
+  // If logged in - no need to login or register
+  if (cookie && pathname === "/auth/login") {
+    request.nextUrl.pathname = "/moviesPage";
+    return NextResponse.redirect(request.nextUrl);
+  }
+
+  // If logged in - no need to login or register
+  if (cookie && pathname === "/auth/register") {
+    request.nextUrl.pathname = "/moviesPage";
+    return NextResponse.redirect(request.nextUrl);
+  }
+
+  return NextResponse.next();
+
+  // Old
+
   // if (request.url.includes("/moviesPage") && !cookie) {
   //   const url = request.nextUrl.clone();
   //   url.pathname = "/auth/login";
   //   return NextResponse.rewrite(url);
   // }
 
-  if (!cookie && !request.url.includes("/auth/register")) {
-    console.log("No Cookie so redirecting to /auth/register");
-    // 2. Redirect to Login
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    return NextResponse.rewrite(url);
-  }
+  // if (!cookie && !request.url.includes("/auth/register")) {
+  //   console.log("No Cookie so redirecting to /auth/register");
+  //   // 2. Redirect to Login
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = "/auth/login";
+  //   return NextResponse.rewrite(url);
+  // }
 
   // Login and register will not be available to authenticated users. They will have to log out first.
-  if (request.url.includes("/auth/login") && cookie) {
-    console.log("Redirecting to MoviePage - already logged in!");
-    const url = request.nextUrl.clone();
-    url.pathname = "/moviesPage";
-    return NextResponse.redirect(url);
-  }
+  // if (request.url.includes("/auth/login") && cookie) {
+  //   console.log("Redirecting to MoviePage - already logged in!");
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = "/moviesPage";
+  //   return NextResponse.redirect(url);
+  // }
 
   // if (request.url.includes("/auth/register") && cookie) {
   //   const url = request.nextUrl.clone();
