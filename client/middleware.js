@@ -14,17 +14,17 @@ export async function middleware(request) {
 
   const { pathname } = request.nextUrl;
 
-  if (request.url.includes("/moviesPage")) {
-    if (token.length === 0) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/auth/login";
-      return NextResponse.rewrite(url);
-    }
+  // if (request.url.includes("/moviesPage")) {
+  //   if (token.length === 0) {
+  //     const url = request.nextUrl.clone();
+  //     url.pathname = "/auth/login";
+  //     return NextResponse.rewrite(url);
+  //   }
 
-    return NextResponse.next();
-  }
+  //   return NextResponse.next();
+  // }
 
-  return NextResponse.next();
+  // return NextResponse.next();
 
   // My attempt 1
   // if (request.url.includes("/auth/login")) {
@@ -42,11 +42,13 @@ export async function middleware(request) {
   // }
 
   // Infinite loop - dont use
-  // if (!token) {
-  //   const url = request.nextUrl.clone();
-  //   url.pathname = "/auth/login";
-  //   return NextResponse.rewrite(url);
-  // }
+  if (token.length === 0) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/login";
+    return NextResponse.rewrite(url);
+  } else {
+    return NextResponse.next();
+  }
 }
 
 // See "Matching Paths" below to learn more
