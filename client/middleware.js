@@ -25,6 +25,8 @@ export async function middleware(request) {
   // let this go through
   if (pathname === "/auth/login") return NextResponse.next();
 
+  if (pathname === "/moviesPage") return NextResponse.next();
+
   if (!token) {
     request.nextUrl.pathname = "/auth/login";
     return NextResponse.redirect(request.nextUrl);
