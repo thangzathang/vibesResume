@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 
 export async function middleware(request) {
   const cookie = await request.cookies.get("token")?.value;
-  console.log("Token Cookie:", cookie?.length);
+  console.log("Token Cookie length:", cookie.length);
 
   const { pathname } = request.nextUrl;
 
@@ -16,9 +16,9 @@ export async function middleware(request) {
   }
 
   // Must be logged in to see Movies Page.
-  if (!cookie) {
+  if (cookie.length === 0) {
     request.nextUrl.pathname = "/auth/login";
-    return NextResponse.redirect(request.nextUrl);
+    return NextResponse.rewrite(request.nextUrl);
   }
 
   // If logged in - no need to login or register
@@ -27,7 +27,7 @@ export async function middleware(request) {
     return NextResponse.redirect(request.nextUrl);
   }
 
-  return NextResponse.next();
+  // return NextResponse.next();
 
   // Old
 
