@@ -26,8 +26,8 @@ export async function middleware(request) {
   if (pathname === "/auth/login") return NextResponse.next();
 
   if (!token) {
-    req.nextUrl.pathname = "/auth/login";
-    return NextResponse.redirect(req.nextUrl);
+    request.nextUrl.pathname = "/auth/login";
+    return NextResponse.redirect(request.nextUrl);
   }
 
   // otherwise the header is present
