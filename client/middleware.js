@@ -12,6 +12,10 @@ export async function middleware(request) {
     return NextResponse.next();
   }
 
+  if (request.url.includes("/moviesPage" && token)) {
+    return NextResponse.next();
+  }
+
   if (request.url.includes("/moviesPage") && !token) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
