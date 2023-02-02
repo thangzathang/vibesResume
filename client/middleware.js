@@ -14,17 +14,24 @@ export async function middleware(request) {
 
   const { pathname } = request.nextUrl;
 
-  // if (request.url.includes("/moviesPage")) {
-  //   if (token.length === 0) {
-  //     const url = request.nextUrl.clone();
-  //     url.pathname = "/auth/login";
-  //     return NextResponse.rewrite(url);
-  //   }
+  if (
+    pathname.startsWith("/api") || //  exclude all API routes
+    pathname.startsWith("/static") || // exclude static files
+    pathname.includes(".") // exclude all files in the public folder
+  ) {
+    return NextResponse.next();
+  }
 
-  //   return NextResponse.next();
-  // }
+  // let this go through
+  if (pathname === "/auth/login") return NextResponse.next();
 
-  // return NextResponse.next();
+  if (!token) {
+    req.nextUrl.pathname = "/auth/login";
+    return NextResponse.redirect(req.nextUrl);
+  }
+
+  // otherwise the header is present
+  return NextResponse.next();
 
   // My attempt 1
   // if (request.url.includes("/auth/login")) {
@@ -41,17 +48,18 @@ export async function middleware(request) {
   //   return NextResponse.rewrite(url);
   // }
 
-  if (request.url.includes("/moviesPage") && token) {
-    return NextResponse.next();
-  }
+  // if (request.url.includes("/auth/login") && token) {
+  //   return NextResponse.next();
+  // }
 
-  if (token ? token.length === 0 : true && request.url.includes("/moviesPage")) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    return NextResponse.rewrite(url);
-  } else {
-    return NextResponse.next();
-  }
+  // if (token ? token.length === 0 : true && request.url.includes("/moviesPage")) {
+  //   const url = request.nextUrl.clone();
+  //   url.pathname = "/auth/login";
+  //   return NextResponse.rewrite(url);
+  // } else {
+  //   console.log("User does not have cookies:");
+  //   return NextResponse.next();
+  // }
 }
 
 // See "Matching Paths" below to learn more
