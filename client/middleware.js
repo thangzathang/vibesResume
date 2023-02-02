@@ -18,11 +18,9 @@ export async function middleware(request) {
   // Not authenticated - no cookie
   if (!cookie) {
     const loginUrl = new URL("/auth/login", request.url);
-    if (!pathname.startsWith("/auth/login")) {
-      return NextResponse.redirect(loginUrl);
-    } else {
-      return NextResponse.next();
-    }
+    return NextResponse.redirect(loginUrl);
+  } else {
+    return NextResponse.next();
   }
 
   return NextResponse.next();
