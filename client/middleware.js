@@ -20,6 +20,7 @@ export async function middleware(request) {
 
   if (url.pathname === "/moviesPage") {
     if (!cookie) {
+      console.log("No Cookies");
       url.pathname = "/auth/login";
       return NextResponse.redirect(url);
     }
@@ -70,6 +71,7 @@ export const config = {
   matcher: [
     //
     // "/",
+    "/((?!_next/static|favicon.ico|login|).*)",
     "/moviesPage",
     "/auth/login",
     "/auth/register",
