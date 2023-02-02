@@ -4,20 +4,20 @@ import { NextRequest } from "next/server";
 // This function can be marked `async` if using `await` inside
 
 export async function middleware(request) {
-  const cookie = request.cookies.get("token")?.value;
+  const cookie = await request.cookies.get("token")?.value;
   console.log("Token Cookie:", cookie?.length);
 
   const { pathname } = request.nextUrl;
 
-  // Must be logged in to see Movies Page.
-  if (!cookie && pathname === "/moviesPage") {
-    request.nextUrl.pathname = "/auth/login";
-    return NextResponse.redirect(request.nextUrl);
-  }
-
   // If logged in - no need to login or register
   if (cookie && pathname === "/auth/login") {
     request.nextUrl.pathname = "/moviesPage";
+    return NextResponse.redirect(request.nextUrl);
+  }
+
+  // Must be logged in to see Movies Page.
+  if (!cookie) {
+    request.nextUrl.pathname = "/auth/login";
     return NextResponse.redirect(request.nextUrl);
   }
 
